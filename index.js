@@ -92,10 +92,12 @@ async function decodeSourceMap(mapFilePath, column, line = 1) {
   }
 }
 
-module.exports = Object.assign(decodeSourceMap, {
+// Export the function and error classes
+module.exports = {
+  decodeSourceMap,
   SourceMapError,
   SourceMapNotFoundError,
   InvalidSourceMapError,
   InvalidInputError,
   NetworkError
-});
+};
