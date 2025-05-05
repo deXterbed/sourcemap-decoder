@@ -11,61 +11,78 @@ A Node.js package to decode sourcemaps and map minified positions to their origi
 
 ## Installation
 
-```bash
-npm install js-sourcemap-decoder
-```
+You can install the package in three ways:
+
+1. **Global Installation** (recommended for frequent use):
+   ```bash
+   npm install -g js-sourcemap-decoder
+   ```
+
+2. **Local Installation** (for use in a specific project):
+   ```bash
+   npm install js-sourcemap-decoder
+   ```
+
+3. **Using npx** (for one-time use without installation):
+   ```bash
+   npx sourcemap-decode <sourcemap-file> <column> [--line <line>]
+   ```
 
 ## Usage
 
 ### Command Line Interface
 
-```bash
-# Basic usage
-sourcemap-decode <mapFilePath> <column> [options]
+The package provides a CLI command `sourcemap-decode` that can be used in three ways:
 
-# Example with local file
-sourcemap-decode .next/static/chunks/pages/_app.js.map 352368 --line 1
+1. **With global installation**:
+   ```bash
+   sourcemap-decode <sourcemap-file> <column> [--line <line>]
+   ```
 
-# Example with URL
-sourcemap-decode https://example.com/static/js/main.js.map 100 --line 5
+2. **With local installation**:
+   ```bash
+   npx sourcemap-decode <sourcemap-file> <column> [--line <line>]
+   ```
 
-# Options
-# -l, --line <number>  Line number in the minified file (optional, defaults to 1)
-# Note: Column number is required, while line number is optional
-```
+3. **With npx** (no installation required):
+   ```bash
+   npx sourcemap-decode <sourcemap-file> <column> [--line <line>]
+   ```
+
+### Examples
+
+1. Using default line number (1):
+   ```bash
+   sourcemap-decode bundle.js.map 20
+   ```
+
+2. Specifying line number:
+   ```bash
+   sourcemap-decode bundle.js.map 20 --line 7617
+   # or using short flag
+   sourcemap-decode bundle.js.map 20 -l 7617
+   ```
+
+3. Using a URL:
+   ```bash
+   sourcemap-decode https://example.com/bundle.js.map 20 --line 7617
+   ```
 
 ### Programmatic Usage
 
 ```javascript
-const decodeSourceMap = require('js-sourcemap-decoder');
+const { decodeSourceMap } = require('js-sourcemap-decoder');
 
-// Decode from a local file
-async function decodeFromFile() {
+async function main() {
   try {
-    const position = await decodeSourceMap(
-      '.next/static/chunks/pages/_app.js.map',
-      352368,  // column number
-      1        // line number (optional, defaults to 1)
-    );
-    console.log(position);
+    const result = await decodeSourceMap('bundle.js.map', 20, 7617);
+    console.log('Original position:', result);
   } catch (error) {
-    console.error(error.message);
+    console.error('Error:', error.message);
   }
 }
 
-// Decode from a URL
-async function decodeFromUrl() {
-  try {
-    const position = await decodeSourceMap(
-      'https://example.com/sourcemap.map',
-      10,  // column number
-      20   // line number
-    );
-    console.log(position);
-  } catch (error) {
-    console.error(error.message);
-  }
-}
+main();
 ```
 
 ## API
@@ -84,7 +101,7 @@ Returns a Promise that resolves to an object containing:
 
 ## Error Handling
 
-The package provides specific error types for better error handling:
+The package throws specific error types for different scenarios:
 
 - `InvalidInputError`: When input parameters are invalid
 - `SourceMapNotFoundError`: When the sourcemap file cannot be found
@@ -94,17 +111,34 @@ The package provides specific error types for better error handling:
 Example error handling:
 
 ```javascript
-const { InvalidInputError, NetworkError } = require('js-sourcemap-decoder');
+const {
+  decodeSourceMap,
+  InvalidInputError,
+  SourceMapNotFoundError,
+  InvalidSourceMapError,
+  NetworkError
+} = require('js-sourcemap-decoder');
 
-try {
-  const position = await decodeSourceMap(mapPath, column, line);
-} catch (error) {
-  if (error instanceof InvalidInputError) {
-    console.error('Invalid input:', error.message);
-  } else if (error instanceof NetworkError) {
-    console.error('Network error:', error.message);
+async function main() {
+  try {
+    const result = await decodeSourceMap('bundle.js.map', 20, 7617);
+    console.log('Original position:', result);
+  } catch (error) {
+    if (error instanceof InvalidInputError) {
+      console.error('Invalid input:', error.message);
+    } else if (error instanceof SourceMapNotFoundError) {
+      console.error('Sourcemap not found:', error.message);
+    } else if (error instanceof InvalidSourceMapError) {
+      console.error('Invalid sourcemap:', error.message);
+    } else if (error instanceof NetworkError) {
+      console.error('Network error:', error.message);
+    } else {
+      console.error('Unknown error:', error.message);
+    }
   }
 }
+
+main();
 ```
 
 ## Development
@@ -112,33 +146,34 @@ try {
 ### Local Setup
 
 1. Clone the repository:
-```bash
-git clone https://github.com/deXterbed/sourcemap-decoder.git
-cd sourcemap-decoder
-```
+   ```bash
+   git clone https://github.com/deXterbed/sourcemap-decoder.git
+   cd sourcemap-decoder
+   ```
 
 2. Install dependencies:
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 3. Link the package locally:
-```bash
-npm link
-```
+   ```bash
+   npm link
+   ```
 
-### Running Tests
+### Testing
 
-The package includes a test suite that verifies:
-- Basic sourcemap decoding
-- Error handling
-- URL and local file handling
-- Input validation
+The package includes a test suite that can be run using:
 
-To run the tests:
 ```bash
 npm test
 ```
+
+The test suite covers:
+- Basic functionality
+- Error handling
+- Edge cases
+- Different input formats
 
 ## Requirements
 
@@ -148,5 +183,15 @@ npm test
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## Acknowledgments
+
+- [source-map](https://github.com/mozilla/source-map) for the core decoding functionality
+- [commander.js](https://github.com/tj/commander.js/) for the CLI interface
+- [node-fetch](https://github.com/node-fetch/node-fetch) for fetching sourcemaps from URLs
 
 
