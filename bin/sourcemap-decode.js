@@ -17,21 +17,25 @@ async function main() {
       console.error("Error: --line flag requires a value");
       process.exit(1);
     }
-    line = parseInt(args[lineIndex + 1], 10);
-    mapFilePath = args[0];
-    column = parseInt(args[1], 10);
-  } else {
-    // Using positional arguments format
-    [mapFilePath, column, line] = args;
-    line = line ? parseInt(line, 10) : 1;
+    const lineValue = args[lineIndex + 1];
+    if (isNaN(lineValue)) {
+      console.error("Error: Line number must be a valid number");
+      process.exit(1);
+    }
+    line = parseInt(lineValue, 10);
+    // Remove the --line flag and its value from args
+    args.splice(lineIndex, 2);
   }
+
+  // Now process the remaining arguments
+  [mapFilePath, column] = args;
 
   if (!mapFilePath) {
     console.error("Error: Sourcemap file path is required");
     process.exit(1);
   }
 
-  if (isNaN(column)) {
+  if (!column || isNaN(column)) {
     console.error("Error: Column number is required and must be a number");
     process.exit(1);
   }

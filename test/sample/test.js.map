@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "test.js",
+  "sourceRoot": "",
+  "sources": ["test.js"],
+  "names": ["add", "a", "b", "subtract"],
+  "mappings": "AAAA,SAASA,IAAIC,CAAC,EAAEC,CAAC,EAAE;EACjB,OAAOD,CAAC,GAAGC,CAAC;AACd;AAEA,SAASC,QAAQF,CAAC,EAAEC,CAAC,EAAE;EACrB,OAAOD,CAAC,GAAGC,CAAC;AACd"
+} 
