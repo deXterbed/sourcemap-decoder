@@ -24,13 +24,13 @@ const {
 async function decodeSourceMap(mapFilePath, column, line = 1) {
   // Validate inputs
   if (!mapFilePath || typeof mapFilePath !== "string") {
-    throw new InvalidInputError("mapFilePath must be a non-empty string");
+    throw new InvalidInputError("The sourcemap file path must be a non-empty string");
   }
   if (!Number.isInteger(column) || column < 0) {
-    throw new InvalidInputError("column must be a non-negative integer");
+    throw new InvalidInputError(`Column number must be a non-negative integer, got: ${column}`);
   }
   if (!Number.isInteger(line) || line < 1) {
-    throw new InvalidInputError("line must be a positive integer");
+    throw new InvalidInputError(`Line number must be a positive integer, got: ${line}`);
   }
 
   // Append .js.map extension if no extension is provided
@@ -65,7 +65,7 @@ async function decodeSourceMap(mapFilePath, column, line = 1) {
 
   // Validate sourcemap content
   if (!mapFileContent.trim()) {
-    throw new InvalidSourceMapError("Sourcemap file is empty");
+    throw new InvalidSourceMapError("The sourcemap file is empty");
   }
 
   // Decode the sourcemap
@@ -76,7 +76,7 @@ async function decodeSourceMap(mapFilePath, column, line = 1) {
 
     // Validate the result
     if (!originalPosition.source) {
-      throw new InvalidSourceMapError('Could not find original position in sourcemap');
+      throw new InvalidSourceMapError(`Could not find original position for line ${line}, column ${column}`);
     }
 
     return originalPosition;

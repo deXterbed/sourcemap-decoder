@@ -22,7 +22,7 @@ class InvalidSourceMapError extends SourceMapError {
 
 class InvalidInputError extends SourceMapError {
   constructor(message) {
-    super(`Invalid input: ${message}`);
+    super(message);
     this.name = 'InvalidInputError';
   }
 }

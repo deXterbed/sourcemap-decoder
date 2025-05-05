@@ -1,6 +1,6 @@
 {
   "name": "js-sourcemap-decoder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A package to decode sourcemaps and map minified positions to original positions.",
   "license": "MIT",
   "author": "Manoj Mishra",
