@@ -1,0 +1,24 @@
+{
+  "name": "js-sourcemap-decoder",
+  "version": "0.0.1",
+  "description": "A package to decode sourcemaps and map minified positions to original positions.",
+  "license": "MIT",
+  "author": "Manoj Mishra",
+  "type": "commonjs",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deXterbed/sourcemap-decoder.git"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "node-fetch": "^2.7.0",
+    "source-map": "^0.7.4"
+  },
+  "bin": {
+    "sourcemap-decode": "./cli.js"
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  }
+}

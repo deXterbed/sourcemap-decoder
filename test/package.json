@@ -1,0 +1,8 @@
+{
+  "name": "js-sourcemap-decoder-test",
+  "version": "1.0.0",
+  "description": "Test suite for js-sourcemap-decoder",
+  "scripts": {
+    "test": "node test.js"
+  }
+} 

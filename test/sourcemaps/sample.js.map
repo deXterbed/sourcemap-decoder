@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "sample.min.js",
+  "sourceRoot": "",
+  "sources": ["sample.js"],
+  "names": ["add", "a", "b"],
+  "mappings": "AAAA,SAASA,GAAG,CAACC,CAAD,CAAIC,CAAJ,CACR,OAAOD,CAAP,CAAIC,CAAJ,CADQ"
+} 
